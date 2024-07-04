@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="cart.css" rel="stylesheet">
+  <title>ITALIAN FOOD</title>
+</head>
+<body style="background-color: white;">
+    
+
+  <div class="menu-add" id="menu-add">
+    <h1>VB's KITCHEN</h1>
+    <!-- Dropdown Button -->
+    <div class="dropdown">
+      
+     
+      <!-- Selected Option Display -->
+      <span id="selectedOption"></span>
+    </div>
+    <!-- movie Items -->
+    <div class="menu-container">
+      <div class="movie-item  ">
+        <img src="img1.jpeg"  >
+        <h3>InsanNali</h3>
+        
+        <p>$25.00</p>
+        <button onclick="addToCart('InsanNali', 25.00)">Add to Cart</button>
+      </div>
+
+      <div class="movie-item ">
+        <img src="img2.jpeg" >
+        <h3>PAYASUP</h3>
+        <p>$16.00</p>
+        <button onclick="addToCart('PAYASUP', 16.00)">Add to Cart</button>
+      </div>
+
+      <div class="movie-item ">
+        <img src="img3.jpeg" >
+        <h3>PANEER BHURJI</h3>
+       <p>$21.00</p>
+        <button onclick="addToCart('PANEER BHURJI', 21.00)">Add to Cart</button>
+      </div>
+      <div class="movie-item  ">
+        <img src="img4.jpeg"  >
+        <h3>MOMO PIZZA</h3>
+        
+        <p>$20.00</p>
+        <button onclick="addToCart('MOMO PIZZA', 20.00)">Add to Cart</button>
+      </div>
+      <div class="movie-item  ">
+        <img src="depositphotos_634970118-stock-photo-italian-food-background-white-kitchen.jpg"  >
+        <h3>LAZANIA</h3>
+        
+        <p>$25.00</p>
+        <button onclick="addToCart('LAZANIA',25.00 )">Add to Cart</button>
+      </div>
+      <div class="movie-item  ">
+        <img src="images.jpeg"  >
+        <h3>PHAJANIYA</h3>
+        
+        <p>$14.00</p>
+        <button onclick="addToCart('PHAJANIYA', 14.00)">Add to Cart</button>
+      </div>
+
+      
+      
+      
+      
+    </div>
+  </div>
+  <!-- Cart Section -->
+  <div class="cart-container" id="cart">
+    <h2>Cart</h2>
+    <!-- Cart items will be displayed here -->
+    <div id="cart-items"></div>
+    <p id="totalAmount">Total: Rs. 0</p>
+    <!-- Checkout button always visible -->
+    <button id="checkoutBtn" onclick="checkout()">Checkout</button>
+  </div>
+  
+  
+
+
+<script>
+function selectOption(option) {
+  document.getElementById("selectedOption").textContent = option;
+  // Show all items initially
+  const pizzaItems = document.querySelectorAll('.movie-item');
+  pizzaItems.forEach(item => {
+    item.style.display = 'block';
+  });
+
+  // Filter items based on selected option
+  if (option === 'Veg') {
+    const nonVegItems = document.querySelectorAll('.movie-item');
+    nonVegItems.forEach(item => {
+      item.style.display = 'none';
+    });
+  } else if (option === 'Non-Veg') {
+    const vegItems = document.querySelectorAll('.pizza-item.Veg');
+    vegItems.forEach(item => {
+      item.style.display = 'none';
+    });
+  }
+}
+
+let cartItems = [];
+
+function addToCart(itemName, price) {
+  // Check if the item already exists in the cart
+  const existingItem = cartItems.find(item => item.name === itemName);
+  if (existingItem) {
+    // If the item exists, update the quantity and amount
+    existingItem.quantity++;
+    existingItem.amount += price;
+  } else {
+    // If the item doesn't exist, add it to the cart
+    cartItems.push({ name: itemName, price: price, quantity: 1, amount: price });
+  }
+  updateCart();
+}
+
+function updateCart() {
+  const cartElement = document.getElementById('cart-items');
+  const totalElement = document.getElementById('totalAmount');
+  cartElement.innerHTML = '';
+  let totalAmount = 0;
+  cartItems.forEach(item => {
+    const itemElement = document.createElement('div');
+    itemElement.classList.add('cart-item');
+    itemElement.innerHTML = `<p>${item.name} - Rs.${item.price} (Qty: ${item.quantity}, Amt: Rs.${item.amount})</p>`;
+    cartElement.appendChild(itemElement);
+    totalAmount += item.amount;
+  });
+  totalElement.textContent = `Total: Rs. ${totalAmount}`;
+
+  // Show checkout button
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  checkoutBtn.style.display = 'block';
+}
+
+function checkout() {
+  alert('Thank you for book your ticket!');
+  cartItems = [];
+  updateCart();
+}
+</script>
+
+</body>
+</html>
